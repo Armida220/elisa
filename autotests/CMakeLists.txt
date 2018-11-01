@@ -198,3 +198,14 @@ if (Qt5Quick_FOUND AND Qt5Widgets_FOUND AND NOT WIN32)
 
     target_include_directories(elisaqmltests PRIVATE ${CMAKE_SOURCE_DIR}/src)
 endif()
+
+set(covermanagerTest_SOURCES
+    covermanagertest.cpp
+)
+
+ecm_add_test(${covermanagerTest_SOURCES}
+    TEST_NAME "covermanagerTest"
+    LINK_LIBRARIES Qt5::Test elisaLib
+)
+
+target_include_directories(covermanagerTest PRIVATE ${CMAKE_SOURCE_DIR}/src)
