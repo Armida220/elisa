@@ -33,7 +33,7 @@ public:
 
     virtual ~CoverManager();
 
-    QUrl findCover(const MusicAudioTrack &track);
+    QUrl findAlbumCover(const MusicAudioTrack &track);
 
 private:
 

@@ -32,7 +32,7 @@ CoverManager::CoverManager() : d(std::make_unique<CoverManagerPrivate>())
 
 CoverManager::~CoverManager() = default;
 
-QUrl CoverManager::findCover(const MusicAudioTrack &newTrack)
+QUrl CoverManager::findAlbumCover(const MusicAudioTrack &newTrack)
 {
     QFileInfo trackFilePath(newTrack.resourceURI().toLocalFile());
     QDir trackFileDir = trackFilePath.absoluteDir();
