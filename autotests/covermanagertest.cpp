@@ -76,6 +76,10 @@ public:
          QStringLiteral("album3"), QStringLiteral("artist3"), 1, 1, QTime(),
          createTrackUrl(QStringLiteral("/artist3/album3/not_existing.ogg")),
          QDateTime(), QUrl(), 0, 0, QString(), QString(), QString()},
+        {true, QString(), QString(), QStringLiteral("title"), QStringLiteral("artist3"),
+         QStringLiteral("album4"), QStringLiteral("artist3"), 1, 1, QTime(),
+         createTrackUrl(QStringLiteral("/artist3/album_folder/not_existing.ogg")),
+         QDateTime(), QUrl(), 0, 0, QString(), QString(), QString()},
     };
 
 private Q_SLOTS:
@@ -97,7 +101,9 @@ private Q_SLOTS:
         QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(6)).isEmpty());
         QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(7)).isEmpty());
         QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(8)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(9)).isEmpty());
     }
+
 };
 
 QTEST_GUILESS_MAIN(CoverManagerTests)

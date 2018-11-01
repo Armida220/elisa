@@ -42,7 +42,8 @@ QUrl CoverManager::findAlbumCover(const MusicAudioTrack &newTrack)
             << QStringLiteral("*[Ff]older*.jpg") << QStringLiteral("*[Ff]older*.png")
             << QStringLiteral("*[Ff]ront*.jpg") << QStringLiteral("*[Ff]ront*.png")
             << dirNamePattern + QStringLiteral(".jpg") << dirNamePattern + QStringLiteral(".png")
-            << dirNamePattern.toLower() + QStringLiteral(".jpg") << dirNamePattern.toLower() + QStringLiteral(".png");
+            << dirNamePattern.toLower() + QStringLiteral(".jpg") << dirNamePattern.toLower() + QStringLiteral(".png")
+            << newTrack.albumName() + QStringLiteral(".jpg") << newTrack.albumName() + QStringLiteral(".png");
     dirNamePattern.remove(QLatin1Char(' '));
     filters << dirNamePattern + QStringLiteral(".jpg") << dirNamePattern + QStringLiteral(".png")
             << dirNamePattern.toLower() + QStringLiteral(".jpg") << dirNamePattern.toLower() + QStringLiteral(".png");
