@@ -25,6 +25,7 @@ set(elisaLib_SOURCES
     filescanning/filescanner.cpp
     filescanning/filelistener.cpp
     filescanning/localfilelisting.cpp
+    filescanning/covermanager.cpp
     models/albummodel.cpp
     models/allalbumsmodel.cpp
     models/allartistsmodel.cpp

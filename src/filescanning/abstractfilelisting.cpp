@@ -20,6 +20,7 @@
 #include "musicaudiotrack.h"
 #include "notificationitem.h"
 #include "filescanner.h"
+#include "covermanager.h"
 
 #include <QThread>
 #include <QHash>
@@ -55,6 +56,8 @@ public:
     QString mSourceName;
 
     FileScanner mFileScanner;
+
+    CoverManager mCoverManager;
 
     QMimeDatabase mMimeDb;
 
@@ -358,29 +361,9 @@ void AbstractFileListing::emitNewFiles(const QList<MusicAudioTrack> &tracks)
 
 void AbstractFileListing::addCover(const MusicAudioTrack &newTrack)
 {
-    auto itCover = d->mAllAlbumCover.find(newTrack.albumName());
-    if (itCover != d->mAllAlbumCover.end()) {
-        return;
-    }
-
-    QFileInfo trackFilePath(newTrack.resourceURI().toLocalFile());
-    QDir trackFileDir = trackFilePath.absoluteDir();
-    QString dirNamePattern = QStringLiteral("*") + trackFileDir.dirName() + QStringLiteral("*");
-    QStringList filters;
-    filters << QStringLiteral("*[Cc]over*.jpg") << QStringLiteral("*[Cc]over*.png")
-            << QStringLiteral("*[Ff]older*.jpg") << QStringLiteral("*[Ff]older*.png")
-            << QStringLiteral("*[Ff]ront*.jpg") << QStringLiteral("*[Ff]ront*.png")
-            << dirNamePattern + QStringLiteral(".jpg") << dirNamePattern + QStringLiteral(".png")
-            << dirNamePattern.toLower() + QStringLiteral(".jpg") << dirNamePattern.toLower() + QStringLiteral(".png");
-    dirNamePattern.remove(QLatin1Char(' '));
-    filters << dirNamePattern + QStringLiteral(".jpg") << dirNamePattern + QStringLiteral(".png")
-            << dirNamePattern.toLower() + QStringLiteral(".jpg") << dirNamePattern.toLower() + QStringLiteral(".png");
-    trackFileDir.setNameFilters(filters);
-    QFileInfoList coverFiles = trackFileDir.entryInfoList();
-    if (coverFiles.isEmpty()) {
-        return;
-    } else {
-        d->mAllAlbumCover[newTrack.resourceURI().toString()] = QUrl::fromLocalFile(coverFiles.at(0).absoluteFilePath());
+    auto coverUrl = d->mCoverManager.findCover(newTrack);
+    if (!coverUrl.isEmpty()) {
+        d->mAllAlbumCover[newTrack.resourceURI().toString()] = coverUrl;
     }
 }
 
