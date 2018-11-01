@@ -28,7 +28,7 @@
 
 #include "baloowatcherapplicationadaptor.h"
 
-#include "filescanner.h"
+#include "filescanning/filescanner.h"
 
 #include <Baloo/Query>
 #include <Baloo/File>

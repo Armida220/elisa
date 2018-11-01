@@ -18,7 +18,7 @@
 #ifndef FILELISTENER_H
 #define FILELISTENER_H
 
-#include "../abstractfile/abstractfilelistener.h"
+#include "../filescanning/abstractfilelistener.h"
 
 #include <QObject>
 #include <QVector>

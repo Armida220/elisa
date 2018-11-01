@@ -18,7 +18,7 @@
 #ifndef BALOOLISTENER_H
 #define BALOOLISTENER_H
 
-#include "../abstractfile/abstractfilelistener.h"
+#include "../filescanning/abstractfilelistener.h"
 
 #include <QObject>
 #include <QVector>

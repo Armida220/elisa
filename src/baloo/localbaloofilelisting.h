@@ -18,7 +18,7 @@
 #ifndef LOCALBALOOFILELISTING_H
 #define LOCALBALOOFILELISTING_H
 
-#include "../abstractfile/abstractfilelisting.h"
+#include "../filescanning/abstractfilelisting.h"
 
 #include <QObject>
 #include <QString>

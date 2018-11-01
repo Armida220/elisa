@@ -17,7 +17,7 @@
 
 #include "databasetestdata.h"
 
-#include "file/localfilelisting.h"
+#include "filescanning/localfilelisting.h"
 #include "musicaudiotrack.h"
 
 #include "config-upnp-qt.h"

@@ -23,7 +23,7 @@
 
 #include "filebrowsermodel.h"
 #include "musicaudiotrack.h"
-#include "filescanner.h"
+#include "filescanning/filescanner.h"
 #include "elisautils.h"
 
 #include <KIOFileWidgets/KDirSortFilterProxyModel>

@@ -20,7 +20,7 @@
 
 #include "elisaLib_export.h"
 
-#include "../abstractfile/abstractfilelisting.h"
+#include "../filescanning/abstractfilelisting.h"
 
 #include <QString>
 

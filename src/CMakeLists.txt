@@ -20,11 +20,11 @@ set(elisaLib_SOURCES
     datatype.cpp
     trackdatahelper.cpp
     modeldatacache.cpp
-    abstractfile/abstractfilelistener.cpp
-    abstractfile/abstractfilelisting.cpp
-    filescanner.cpp
-    file/filelistener.cpp
-    file/localfilelisting.cpp
+    filescanning/abstractfilelistener.cpp
+    filescanning/abstractfilelisting.cpp
+    filescanning/filescanner.cpp
+    filescanning/filelistener.cpp
+    filescanning/localfilelisting.cpp
     models/albummodel.cpp
     models/allalbumsmodel.cpp
     models/allartistsmodel.cpp

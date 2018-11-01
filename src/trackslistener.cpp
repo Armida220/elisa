@@ -18,7 +18,7 @@
 #include "trackslistener.h"
 
 #include "databaseinterface.h"
-#include "filescanner.h"
+#include "filescanning/filescanner.h"
 
 #include <QMimeDatabase>
 #include <QSet>

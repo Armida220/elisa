@@ -29,8 +29,8 @@
 
 #include "databaseinterface.h"
 #include "mediaplaylist.h"
-#include "file/filelistener.h"
-#include "file/localfilelisting.h"
+#include "filescanning/filelistener.h"
+#include "filescanning/localfilelisting.h"
 #include "trackslistener.h"
 #include "notificationitem.h"
 #include "elisaapplication.h"
