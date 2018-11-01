@@ -18,6 +18,8 @@
 #ifndef COVERMANAGER_H
 #define COVERMANAGER_H
 
+#include "elisaLib_export.h"
+
 #include <QUrl>
 #include <memory>
 
@@ -25,7 +27,7 @@
 class CoverManagerPrivate;
 class MusicAudioTrack;
 
-class CoverManager
+class ELISALIB_EXPORT CoverManager
 {
 public:
 
