@@ -361,7 +361,7 @@ void AbstractFileListing::emitNewFiles(const QList<MusicAudioTrack> &tracks)
 
 void AbstractFileListing::addCover(const MusicAudioTrack &newTrack)
 {
-    auto coverUrl = d->mCoverManager.findAlbumCover(newTrack);
+    auto coverUrl = d->mCoverManager.findAlbumCoverInDirectory(newTrack);
     if (!coverUrl.isEmpty()) {
         d->mAllAlbumCover[newTrack.resourceURI().toString()] = coverUrl;
     }

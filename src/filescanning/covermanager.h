@@ -35,7 +35,9 @@ public:
 
     virtual ~CoverManager();
 
-    QUrl findAlbumCover(const MusicAudioTrack &track);
+    QUrl findAlbumCoverInDirectory(const MusicAudioTrack &track) const;
+
+    QUrl loadAlbumCoverFromMetaData(const MusicAudioTrack &newTrack) const;
 
 private:
 

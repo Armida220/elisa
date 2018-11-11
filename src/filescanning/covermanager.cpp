@@ -19,13 +19,17 @@
 
 #include "musicaudiotrack.h"
 
+#include <KFileMetaData/EmbeddedImageData>
+
 #include <QFileInfo>
 #include <QDir>
+#include <QImage>
 
 class CoverManagerPrivate
 {
 public:
     static const QStringList constSearchStrings;
+    const KFileMetaData::EmbeddedImageData imageReader;
 };
 
 const QStringList CoverManagerPrivate::constSearchStrings = {
@@ -43,7 +47,7 @@ CoverManager::CoverManager() : d(std::make_unique<CoverManagerPrivate>())
 
 CoverManager::~CoverManager() = default;
 
-QUrl CoverManager::findAlbumCover(const MusicAudioTrack &newTrack)
+QUrl CoverManager::findAlbumCoverInDirectory(const MusicAudioTrack &newTrack) const
 {
     QFileInfo trackFilePath(newTrack.resourceURI().toLocalFile());
     QDir trackFileDir = trackFilePath.absoluteDir();
@@ -69,5 +73,20 @@ QUrl CoverManager::findAlbumCover(const MusicAudioTrack &newTrack)
     } else {
         return QUrl::fromLocalFile(coverFiles.at(0).absoluteFilePath());
     }
+}
+
+QUrl CoverManager::loadAlbumCoverFromMetaData(const MusicAudioTrack &newTrack) const
+{
+    if (newTrack.resourceURI().isLocalFile()) {
+        auto imageMap = d->imageReader.imageData(newTrack.resourceURI().toLocalFile());
+        auto frontCoverEntry = imageMap.find(KFileMetaData::EmbeddedImageData::FrontCover);
+        if (frontCoverEntry != imageMap.end()) {
+            QImage frontCover;
+            if (frontCover.loadFromData(frontCoverEntry.value())) {
+                frontCover.save(QStringLiteral("test.png"));
+            }
+        }
+    }
+    return QUrl();
 }
 

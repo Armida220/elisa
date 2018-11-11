@@ -96,17 +96,17 @@ private Q_SLOTS:
     void test()
     {
         CoverManager coverManager;
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(0)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(1)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(2)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(3)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(4)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(5)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(6)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(7)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(8)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(9)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(10)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(0)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(1)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(2)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(3)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(4)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(5)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(6)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(7)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(8)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(9)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(10)).isEmpty());
     }
 
     void benchmark()
