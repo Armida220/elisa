@@ -24,6 +24,17 @@
 
 class CoverManagerPrivate
 {
+public:
+    static const QStringList constSearchStrings;
+};
+
+const QStringList CoverManagerPrivate::constSearchStrings = {
+    QStringLiteral("*[Cc]over*.jpg"),
+    QStringLiteral("*[Cc]over*.png"),
+    QStringLiteral("*[Ff]older*.jpg"),
+    QStringLiteral("*[Ff]older*.png"),
+    QStringLiteral("*[Ff]ront*.jpg"),
+    QStringLiteral("*[Ff]ront*.png")
 };
 
 CoverManager::CoverManager() : d(std::make_unique<CoverManagerPrivate>())
@@ -36,19 +47,23 @@ QUrl CoverManager::findAlbumCover(const MusicAudioTrack &newTrack)
 {
     QFileInfo trackFilePath(newTrack.resourceURI().toLocalFile());
     QDir trackFileDir = trackFilePath.absoluteDir();
-    QString dirNamePattern = QStringLiteral("*") + trackFileDir.dirName() + QStringLiteral("*");
-    QStringList filters;
-    filters << QStringLiteral("*[Cc]over*.jpg") << QStringLiteral("*[Cc]over*.png")
-            << QStringLiteral("*[Ff]older*.jpg") << QStringLiteral("*[Ff]older*.png")
-            << QStringLiteral("*[Ff]ront*.jpg") << QStringLiteral("*[Ff]ront*.png")
-            << dirNamePattern + QStringLiteral(".jpg") << dirNamePattern + QStringLiteral(".png")
-            << dirNamePattern.toLower() + QStringLiteral(".jpg") << dirNamePattern.toLower() + QStringLiteral(".png")
-            << newTrack.albumName() + QStringLiteral(".jpg") << newTrack.albumName() + QStringLiteral(".png");
-    dirNamePattern.remove(QLatin1Char(' '));
-    filters << dirNamePattern + QStringLiteral(".jpg") << dirNamePattern + QStringLiteral(".png")
-            << dirNamePattern.toLower() + QStringLiteral(".jpg") << dirNamePattern.toLower() + QStringLiteral(".png");
-    trackFileDir.setNameFilters(filters);
+    trackFileDir.setFilter(QDir::Files);
+    trackFileDir.setNameFilters(d->constSearchStrings);
     QFileInfoList coverFiles = trackFileDir.entryInfoList();
+    if (coverFiles.isEmpty()) {
+        QString dirNamePattern = QStringLiteral("*") + trackFileDir.dirName() + QStringLiteral("*");
+        QString dirNameNoSpaces = dirNamePattern.remove(QLatin1Char(' '));
+        QStringList filters = {
+            dirNamePattern + QStringLiteral(".jpg"),
+            dirNamePattern + QStringLiteral(".png"),
+            newTrack.albumName() + QStringLiteral(".jpg"),
+            newTrack.albumName() + QStringLiteral(".png"),
+            dirNameNoSpaces + QStringLiteral(".jpg"),
+            dirNameNoSpaces + QStringLiteral(".png")
+        };
+        trackFileDir.setNameFilters(filters);
+        coverFiles = trackFileDir.entryInfoList();
+    }
     if (coverFiles.isEmpty()) {
         return QUrl();
     } else {

@@ -80,6 +80,10 @@ public:
          QStringLiteral("album4"), QStringLiteral("artist3"), 1, 1, QTime(),
          createTrackUrl(QStringLiteral("/artist3/album_folder/not_existing.ogg")),
          QDateTime(), QUrl(), 0, 0, QString(), QString(), QString()},
+        {true, QString(), QString(), QStringLiteral("title"), QStringLiteral("artist3"),
+         QStringLiteral("albumXX"), QStringLiteral("artist3"), 1, 1, QTime(),
+         createTrackUrl(QStringLiteral("/artist3/specific_directory_for_album_name/not_existing.ogg")),
+         QDateTime(), QUrl(), 0, 0, QString(), QString(), QString()},
     };
 
 private Q_SLOTS:
@@ -102,6 +106,7 @@ private Q_SLOTS:
         QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(7)).isEmpty());
         QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(8)).isEmpty());
         QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(9)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(10)).isEmpty());
     }
 
     void benchmark()
