@@ -91,6 +91,14 @@ public:
          QStringLiteral("album"), QStringLiteral("artist"), 1, 1, QTime(),
          createTrackUrl(QStringLiteral("/artist4/test.ogg")),
          QDateTime(), QUrl(), 0, 0, QString(), QString(), QString()},
+        {true, QString(), QString(), QStringLiteral("title"), QStringLiteral("artist"),
+         QStringLiteral("album"), QStringLiteral("artist"), 1, 1, QTime(),
+         createTrackUrl(QStringLiteral("/artist4/test.flac")),
+         QDateTime(), QUrl(), 0, 0, QString(), QString(), QString()},
+        {true, QString(), QString(), QStringLiteral("title"), QStringLiteral("artist"),
+         QStringLiteral("album"), QStringLiteral("artist"), 1, 1, QTime(),
+         createTrackUrl(QStringLiteral("/artist4/test.mp3")),
+         QDateTime(), QUrl(), 0, 0, QString(), QString(), QString()},
     };
 
 private Q_SLOTS:
@@ -120,8 +128,8 @@ private Q_SLOTS:
     {
         CoverManager coverManager;
         QVERIFY(!coverManager.loadAlbumCoverFromMetaData(mTestTracksForMetaData.at(0)).isEmpty());
-        //QVERIFY(!coverManager.loadAlbumCoverFromMetaData(mTestTracksForMetaData.at(1)).isEmpty());
-        //QVERIFY(!coverManager.loadAlbumCoverFromMetaData(mTestTracksForMetaData.at(2)).isEmpty());
+        QVERIFY(!coverManager.loadAlbumCoverFromMetaData(mTestTracksForMetaData.at(1)).isEmpty());
+        QVERIFY(!coverManager.loadAlbumCoverFromMetaData(mTestTracksForMetaData.at(2)).isEmpty());
     }
 
     void benchmark_in_directory()

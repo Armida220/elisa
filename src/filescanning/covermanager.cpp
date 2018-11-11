@@ -85,7 +85,7 @@ QUrl CoverManager::loadAlbumCoverFromMetaData(const MusicAudioTrack &newTrack) c
         if (frontCoverEntry != imageMap.end()) {
             QImage frontCover;
             if (frontCover.loadFromData(frontCoverEntry.value())) {
-                QDir directoryUrl = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+ QStringLiteral("/covers/"));
+                QDir directoryUrl = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/covers/"));
                 if (!directoryUrl.exists()) {
                     directoryUrl.mkpath(directoryUrl.absolutePath());
                 }
