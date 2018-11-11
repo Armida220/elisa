@@ -104,6 +104,13 @@ private Q_SLOTS:
         QVERIFY(!coverManager.findAlbumCover(mTestTracks.at(9)).isEmpty());
     }
 
+    void benchmark()
+    {
+        QBENCHMARK {
+            test();
+        }
+    }
+
 };
 
 QTEST_GUILESS_MAIN(CoverManagerTests)
