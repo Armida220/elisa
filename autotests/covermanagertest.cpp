@@ -36,10 +36,10 @@ class CoverManagerTests: public QObject
 public:
 
     QUrl createTrackUrl(QString subpath) {
-        return QUrl::fromLocalFile(QStringLiteral(LOCAL_FILE_TESTS_SAMPLE_FILES_PATH) + QStringLiteral("/music") + subpath);
+        return QUrl::fromLocalFile(QStringLiteral(LOCAL_FILE_TESTS_SAMPLE_FILES_PATH) + QStringLiteral("/cover_art") + subpath);
     }
 
-    QList<MusicAudioTrack> mTestTracks = {
+    QList<MusicAudioTrack> mTestTracksForDirectory = {
         {true, QString(), QString(), QStringLiteral("title"), QStringLiteral("artist1"),
          QStringLiteral("album1"), QStringLiteral("artist1"), 1, 1, QTime(),
          createTrackUrl(QStringLiteral("/artist1/album1/not_existing.ogg")),
@@ -86,6 +86,13 @@ public:
          QDateTime(), QUrl(), 0, 0, QString(), QString(), QString()},
     };
 
+    QList<MusicAudioTrack> mTestTracksForMetaData = {
+        {true, QString(), QString(), QStringLiteral("title"), QStringLiteral("artist"),
+         QStringLiteral("album"), QStringLiteral("artist"), 1, 1, QTime(),
+         createTrackUrl(QStringLiteral("/artist4/test.ogg")),
+         QDateTime(), QUrl(), 0, 0, QString(), QString(), QString()},
+    };
+
 private Q_SLOTS:
 
     void initTestCase()
@@ -93,26 +100,40 @@ private Q_SLOTS:
 
     }
 
-    void test()
+    void test_find_in_directory()
     {
         CoverManager coverManager;
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(0)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(1)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(2)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(3)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(4)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(5)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(6)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(7)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(8)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(9)).isEmpty());
-        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracks.at(10)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(0)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(1)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(2)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(3)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(4)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(5)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(6)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(7)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(8)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(9)).isEmpty());
+        QVERIFY(!coverManager.findAlbumCoverInDirectory(mTestTracksForDirectory.at(10)).isEmpty());
     }
 
-    void benchmark()
+    void load_from_metadata()
+    {
+        CoverManager coverManager;
+        QVERIFY(!coverManager.loadAlbumCoverFromMetaData(mTestTracksForMetaData.at(0)).isEmpty());
+        //QVERIFY(!coverManager.loadAlbumCoverFromMetaData(mTestTracksForMetaData.at(1)).isEmpty());
+        //QVERIFY(!coverManager.loadAlbumCoverFromMetaData(mTestTracksForMetaData.at(2)).isEmpty());
+    }
+
+    void benchmark_in_directory()
     {
         QBENCHMARK {
-            test();
+            test_find_in_directory();
+        }
+    }
+    void benchmark_from_metadata()
+    {
+        QBENCHMARK {
+            load_from_metadata();
         }
     }
 

@@ -23,7 +23,9 @@
 
 #include <QFileInfo>
 #include <QDir>
+#include <QStandardPaths>
 #include <QImage>
+#include <QDebug>
 
 class CoverManagerPrivate
 {
@@ -83,7 +85,15 @@ QUrl CoverManager::loadAlbumCoverFromMetaData(const MusicAudioTrack &newTrack) c
         if (frontCoverEntry != imageMap.end()) {
             QImage frontCover;
             if (frontCover.loadFromData(frontCoverEntry.value())) {
-                frontCover.save(QStringLiteral("test.png"));
+                QDir directoryUrl = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+ QStringLiteral("/covers/"));
+                if (!directoryUrl.exists()) {
+                    directoryUrl.mkpath(directoryUrl.absolutePath());
+                }
+                QString fileUrl = directoryUrl.absolutePath() + QStringLiteral("/") + newTrack.artist() + newTrack.albumName() + QStringLiteral(".png");
+                if (frontCover.save(fileUrl)) {
+                    qDebug() << QStringLiteral("Saved cover art to file") << fileUrl;
+                    return QUrl::fromLocalFile(fileUrl);
+                }
             }
         }
     }
