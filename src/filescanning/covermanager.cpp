@@ -32,6 +32,8 @@ class CoverManagerPrivate
 public:
     static const QStringList constSearchStrings;
     const KFileMetaData::EmbeddedImageData imageReader;
+    QImage frontCover;
+    QDir directoryUrl;
 };
 
 const QStringList CoverManagerPrivate::constSearchStrings = {
@@ -45,6 +47,10 @@ const QStringList CoverManagerPrivate::constSearchStrings = {
 
 CoverManager::CoverManager() : d(std::make_unique<CoverManagerPrivate>())
 {
+    d->directoryUrl = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/covers/"));
+    if (!d->directoryUrl.exists()) {
+        d->directoryUrl.mkpath(d->directoryUrl.absolutePath());
+    }
 }
 
 CoverManager::~CoverManager() = default;
@@ -83,14 +89,9 @@ QUrl CoverManager::loadAlbumCoverFromMetaData(const MusicAudioTrack &newTrack) c
         auto imageMap = d->imageReader.imageData(newTrack.resourceURI().toLocalFile());
         auto frontCoverEntry = imageMap.find(KFileMetaData::EmbeddedImageData::FrontCover);
         if (frontCoverEntry != imageMap.end()) {
-            QImage frontCover;
-            if (frontCover.loadFromData(frontCoverEntry.value())) {
-                QDir directoryUrl = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/covers/"));
-                if (!directoryUrl.exists()) {
-                    directoryUrl.mkpath(directoryUrl.absolutePath());
-                }
-                QString fileUrl = directoryUrl.absolutePath() + QStringLiteral("/") + newTrack.artist() + newTrack.albumName() + QStringLiteral(".png");
-                if (frontCover.save(fileUrl)) {
+            if (d->frontCover.loadFromData(frontCoverEntry.value())) {
+                QString fileUrl = d->directoryUrl.absolutePath() + QStringLiteral("/") + newTrack.artist() + newTrack.albumName() + QStringLiteral(".png");
+                if (d->frontCover.save(fileUrl)) {
                     qDebug() << QStringLiteral("Saved cover art to file") << fileUrl;
                     return QUrl::fromLocalFile(fileUrl);
                 }
