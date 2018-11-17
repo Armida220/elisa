@@ -34,6 +34,9 @@ public:
     const KFileMetaData::EmbeddedImageData imageReader;
     QImage frontCover;
     QDir directoryUrl;
+    QSize maximumImageSize;
+
+    QUrl saveToFile(const MusicAudioTrack &track);
 };
 
 const QStringList CoverManagerPrivate::constSearchStrings = {
@@ -45,12 +48,33 @@ const QStringList CoverManagerPrivate::constSearchStrings = {
     QStringLiteral("*[Ff]ront*.png")
 };
 
+QUrl CoverManagerPrivate::saveToFile(const MusicAudioTrack &track)
+{
+    QString fileUrl = directoryUrl.absolutePath() + QStringLiteral("/");
+    if (track.albumArtist().isEmpty() || track.albumName().isEmpty()) {
+        fileUrl += track.resourceURI().fileName() + QStringLiteral(".png");
+    } else {
+        fileUrl += track.albumArtist() + track.albumName() + QStringLiteral(".png");
+    }
+    if (frontCover.size().width() > maximumImageSize.width()
+            || frontCover.size().height() > maximumImageSize.height()) {
+        frontCover = frontCover.scaled(maximumImageSize, Qt::KeepAspectRatio);
+    }
+    if (frontCover.save(fileUrl)) {
+        qDebug() << QStringLiteral("Saved cover art to file") << fileUrl;
+        return QUrl::fromLocalFile(fileUrl);
+    }
+    return QUrl();
+}
+
 CoverManager::CoverManager() : d(std::make_unique<CoverManagerPrivate>())
 {
     d->directoryUrl = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/covers/"));
     if (!d->directoryUrl.exists()) {
         d->directoryUrl.mkpath(d->directoryUrl.absolutePath());
     }
+    d->maximumImageSize.setHeight(512);
+    d->maximumImageSize.setWidth(512);
 }
 
 CoverManager::~CoverManager() = default;
@@ -76,11 +100,12 @@ QUrl CoverManager::findAlbumCoverInDirectory(const MusicAudioTrack &newTrack) co
         trackFileDir.setNameFilters(filters);
         coverFiles = trackFileDir.entryInfoList();
     }
-    if (coverFiles.isEmpty()) {
-        return QUrl();
-    } else {
-        return QUrl::fromLocalFile(coverFiles.at(0).absoluteFilePath());
+    if (!coverFiles.isEmpty()) {
+        if (d->frontCover.load(coverFiles.at(0).absoluteFilePath())) {
+            return d->saveToFile(newTrack);
+        }
     }
+    return QUrl();
 }
 
 QUrl CoverManager::loadAlbumCoverFromMetaData(const MusicAudioTrack &newTrack) const
@@ -90,14 +115,12 @@ QUrl CoverManager::loadAlbumCoverFromMetaData(const MusicAudioTrack &newTrack) c
         auto frontCoverEntry = imageMap.find(KFileMetaData::EmbeddedImageData::FrontCover);
         if (frontCoverEntry != imageMap.end()) {
             if (d->frontCover.loadFromData(frontCoverEntry.value())) {
-                QString fileUrl = d->directoryUrl.absolutePath() + QStringLiteral("/") + newTrack.artist() + newTrack.albumName() + QStringLiteral(".png");
-                if (d->frontCover.save(fileUrl)) {
-                    qDebug() << QStringLiteral("Saved cover art to file") << fileUrl;
-                    return QUrl::fromLocalFile(fileUrl);
-                }
+                return d->saveToFile(newTrack);
             }
         }
     }
     return QUrl();
 }
+
+
 
